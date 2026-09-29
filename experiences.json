@@ -4,7 +4,7 @@
       "id": "xp-logo",
       "title": "XP Power logo",
       "description": "The XP Power logo in 3D. Tap \"View in your space\", place it on the floor, then pinch to make it bigger or smaller.",
-      "model": "models/xp-logo.glb",
+      "model": "xp-logo.glb",
       "iosModel": "",
       "placement": "floor",
       "scale": "auto",
