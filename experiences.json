@@ -14,6 +14,19 @@
       }
     },
     {
+      "id": "lba200",
+      "title": "LBA200 Series power supply",
+      "description": "200 W enclosed AC-DC power supply, shown at its real size of 215 x 115 x 30 mm. Place it on your desk or bench to check the fit, then pinch to enlarge it and see the detail. Illustrative 3D sample.",
+      "model": "lba200.glb",
+      "iosModel": "",
+      "placement": "floor",
+      "scale": "auto",
+      "cta": {
+        "label": "LBA200 product page",
+        "url": "https://www.xppower.com/product/LBA200-Series"
+      }
+    },
+    {
       "id": "astronaut",
       "title": "Astronaut",
       "description": "A life-size astronaut. Tap \"View in your space\" and point your phone at the floor.",
