@@ -1,0 +1,40 @@
+{
+  "experiences": [
+    {
+      "id": "xp-logo",
+      "title": "XP Power logo",
+      "description": "The XP Power logo in 3D. Tap \"View in your space\", place it on the floor, then pinch to make it bigger or smaller.",
+      "model": "models/xp-logo.glb",
+      "iosModel": "",
+      "placement": "floor",
+      "scale": "auto",
+      "cta": {
+        "label": "Visit XP Power",
+        "url": "https://www.xppower.com"
+      }
+    },
+    {
+      "id": "astronaut",
+      "title": "Astronaut",
+      "description": "A life-size astronaut. Tap \"View in your space\" and point your phone at the floor.",
+      "model": "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+      "iosModel": "",
+      "placement": "floor",
+      "scale": "auto",
+      "cta": {
+        "label": "About this demo",
+        "url": "https://modelviewer.dev"
+      }
+    },
+    {
+      "id": "robot",
+      "title": "Waving robot",
+      "description": "An animated robot that waves at you. Good for testing animation playback in AR.",
+      "model": "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",
+      "iosModel": "",
+      "placement": "floor",
+      "scale": "auto",
+      "animation": "Wave"
+    }
+  ]
+}

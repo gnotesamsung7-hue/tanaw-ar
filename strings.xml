@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tanaw AR</string>
+    <string name="hint">Point at a Tanaw QR code</string>
+    <string name="torch_on">Flashlight on</string>
+    <string name="torch_off">Flashlight off</string>
+    <string name="permission_needed">Tanaw AR needs the camera to scan QR codes. Allow camera access in Settings to continue.</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="external_title">Open this link?</string>
+    <string name="external_message">This code links to %1$s, which isn\'t part of Tanaw AR.\n\n%2$s</string>
+    <string name="open">Open</string>
+    <string name="cancel">Cancel</string>
+    <string name="text_title">Code contents</string>
+    <string name="copy">Copy</string>
+    <string name="done">Done</string>
+    <string name="no_browser">No browser found. Install Google Chrome to view AR.</string>
+</resources>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tanaw AR</title>
+<meta name="theme-color" content="#0e1418">
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.3.1/dist/model-viewer.min.js"></script>
+<style>
+  :root { --bg:#0e1418; --ink:#e8eeeb; --muted:#93a1a7; --accent:#ff7440; --surface:#172127; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; height:100%; background:var(--bg); color:var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .app { display:flex; flex-direction:column; height:100%; padding-bottom: env(safe-area-inset-bottom, 0px); }
+  model-viewer { flex:1; width:100%; background: radial-gradient(circle at 50% 40%, #22313a, var(--bg) 70%);
+    --poster-color: transparent; }
+  .sheet { background:var(--surface); padding:18px 16px 20px; display:flex; flex-direction:column; gap:10px;
+    border-radius:16px 16px 0 0; }
+  h1 { margin:0; font-size:20px; line-height:1.2; }
+  p { margin:0; color:var(--muted); font-size:15px; line-height:1.45; }
+  .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:4px; }
+  .btn { flex:1 1 160px; font:600 16px inherit; padding:14px 16px; border-radius:12px; border:0; cursor:pointer;
+    text-align:center; text-decoration:none; }
+  .primary { background:var(--accent); color:#1a0d06; }
+  .ghost { background:transparent; color:var(--ink); border:1px solid #33434c; }
+  .hidden { display:none !important; }
+  .msg { padding:40px 20px; text-align:center; color:var(--muted); }
+  .progress { position:absolute; left:0; right:0; top:0; height:3px; background:var(--accent);
+    transform-origin:left; transform:scaleX(0); transition:transform .2s; }
+</style>
+</head>
+<body>
+<div class="app">
+  <model-viewer id="mv" camera-controls touch-action="pan-y" min-camera-orbit="auto auto 5%" max-camera-orbit="auto auto 300%" shadow-intensity="1" environment-image="neutral"
+    ar ar-modes="webxr scene-viewer quick-look" autoplay alt="3D model">
+    <div class="progress" id="progress" slot="progress-bar"></div>
+    <button slot="ar-button" class="hidden"></button>
+  </model-viewer>
+  <div class="sheet">
+    <h1 id="title">Loading…</h1>
+    <p id="desc"></p>
+    <div class="actions">
+      <button class="btn primary" id="arBtn" type="button">View in your space</button>
+      <a class="btn ghost hidden" id="cta" target="_blank" rel="noopener"></a>
+    </div>
+    <p id="pinchNote" class="hidden">In AR, pinch with two fingers to make it bigger or smaller, and drag to move it.</p>
+    <p id="arNote" class="hidden">AR isn't supported on this device or browser. You can still rotate and zoom the model above.</p>
+  </div>
+</div>
+<script type="module">
+const $ = id => document.getElementById(id);
+const mv = $('mv');
+const params = new URLSearchParams(location.search);
+const id = (params.get('id') || '').trim();
+
+function fail(text) {
+  $('title').textContent = 'Experience not found';
+  $('desc').textContent = text;
+  $('arBtn').classList.add('hidden');
+}
+
+try {
+  const res = await fetch('experiences.json', { cache: 'no-cache' });
+  const data = await res.json();
+  const exp = data.experiences.find(e => e.id === id);
+  if (!exp) {
+    fail(id ? `No experience called "${id}". Check the QR code.` : 'This link is missing an experience id.');
+  } else {
+    document.title = exp.title + ' · Tanaw AR';
+    $('title').textContent = exp.title;
+    $('desc').textContent = exp.description || '';
+    mv.src = exp.model;
+    mv.alt = exp.title;
+    if (exp.iosModel) mv.setAttribute('ios-src', exp.iosModel);
+    if (exp.poster) mv.poster = exp.poster;
+    mv.setAttribute('ar-placement', exp.placement === 'wall' ? 'wall' : 'floor');
+    mv.setAttribute('ar-scale', exp.scale === 'auto' ? 'auto' : 'fixed');
+    if (exp.scale === 'auto') $('pinchNote').classList.remove('hidden');
+    if (exp.animation) mv.setAttribute('animation-name', exp.animation);
+    if (exp.cta && exp.cta.url) {
+      $('cta').href = exp.cta.url; $('cta').textContent = exp.cta.label || 'Learn more';
+      $('cta').classList.remove('hidden');
+    }
+  }
+} catch (e) {
+  fail('Could not load the experience list. Check your connection and try again.');
+}
+
+mv.addEventListener('progress', e => { $('progress').style.transform = `scaleX(${e.detail.totalProgress})`;
+  if (e.detail.totalProgress >= 1) setTimeout(() => $('progress').style.opacity = 0, 300); });
+mv.addEventListener('load', () => {
+  if (!mv.canActivateAR) { $('arBtn').classList.add('hidden'); $('arNote').classList.remove('hidden'); }
+});
+mv.addEventListener('error', () => fail('The 3D model failed to load.'));
+$('arBtn').addEventListener('click', () => mv.activateAR());
+</script>
+</body>
+</html>

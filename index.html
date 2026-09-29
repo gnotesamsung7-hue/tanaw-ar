@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tanaw AR · Experiences</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+  body { margin:0; background:#0e1418; color:#e8eeeb; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 960px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { margin: 0 0 6px; font-size: 28px; }
+  .lede { color:#93a1a7; margin: 0 0 24px; max-width: 60ch; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .card { background:#172127; border:1px solid #26343c; border-radius: 12px; padding: 16px; display:flex; flex-direction:column; gap:10px; }
+  .card h2 { margin:0; font-size:18px; }
+  .card p { margin:0; color:#93a1a7; font-size:14px; }
+  .qr { background:#fff; border-radius:8px; padding:10px; align-self:flex-start; }
+  .qr img { display:block; width:180px; height:180px; image-rendering: pixelated; }
+  code { font-size:12px; color:#ffb08a; word-break: break-all; }
+  a { color:#ff9b6e; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Tanaw AR experiences</h1>
+  <p class="lede">Every experience in <code>experiences.json</code> gets a QR code here. Print it or show it on screen, then scan it with the Tanaw AR app. Right-click a code and choose “Save image” to download it.</p>
+  <div class="grid" id="grid"></div>
+</main>
+<script>
+fetch('experiences.json', { cache: 'no-cache' }).then(r => r.json()).then(data => {
+  const base = new URL('view.html', location.href);
+  const grid = document.getElementById('grid');
+  data.experiences.forEach(exp => {
+    const url = new URL(base); url.searchParams.set('id', exp.id);
+    const qr = qrcode(0, 'M'); qr.addData(url.href); qr.make();
+    const card = document.createElement('div'); card.className = 'card';
+    card.innerHTML = `<h2></h2><p></p><div class="qr">${qr.createImgTag(6, 8)}</div><code></code><a target="_blank" rel="noopener">Open in browser</a>`;
+    card.querySelector('h2').textContent = exp.title;
+    card.querySelector('p').textContent = exp.description || '';
+    card.querySelector('code').textContent = url.href;
+    card.querySelector('a').href = url.href;
+    grid.appendChild(card);
+  });
+});
+</script>
+</body>
+</html>

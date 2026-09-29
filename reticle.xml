@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Four orange corner brackets that frame the scan area -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="260dp" android:height="260dp"
+    android:viewportWidth="100" android:viewportHeight="100">
+    <path android:strokeColor="#FF7440" android:strokeWidth="3" android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M2,22 L2,2 L22,2 M78,2 L98,2 L98,22 M98,78 L98,98 L78,98 M22,98 L2,98 L2,78" />
+</vector>
